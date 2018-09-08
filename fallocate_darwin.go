@@ -20,7 +20,7 @@ func Fallocate(file *os.File, offset int64, length int64) error {
 	if err != syscall.Errno(0x0) {
 		fst.Flags = syscall.F_ALLOCATEALL
 		// Ignore the return value
-		syscall.Syscall(syscall.SYS_FCNTL, file.Fd(), syscall.F_PREALLOCATE, uintptr(unsafe.Pointer(&fst)))
+		_, _, _ = syscall.Syscall(syscall.SYS_FCNTL, file.Fd(), syscall.F_PREALLOCATE, uintptr(unsafe.Pointer(&fst)))
 	}
 
 	return syscall.Ftruncate(int(file.Fd()), fst.Length)

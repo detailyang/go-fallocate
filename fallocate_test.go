@@ -25,17 +25,17 @@ func fallocateWithNewFile(t *testing.T, size int64) {
 			t.Error(err)
 		}
 	}()
-	Fallocate(f, 0, size)
+	_ = Fallocate(f, 0, size)
 	if !checkFileSize(f, size) {
 		t.Errorf("Allocate file from %d to %d failed", 0, size)
 	}
 
-	Fallocate(f, size, size)
+	_ = Fallocate(f, size, size)
 	if !checkFileSize(f, 2*size) {
 		t.Errorf("Allocate file from %d to %d failed", size, 2*size)
 	}
 
-	Fallocate(f, 2*size-1, size)
+	_ = Fallocate(f, 2*size-1, size)
 	if !checkFileSize(f, 2*size-1+size) {
 		t.Errorf("Allocate file from %d to %d failed", 2*size-1, 2*size-1+size)
 	}
