@@ -1,0 +1,25 @@
+// +build !linux,!darwin
+
+package fallocate
+
+import "os"
+
+func Fallocate(file *os.File, offset int64, length int64) error {
+	var buf [65536]byte
+
+	file.Seek(offset, os.SEEK_SET)
+	for length > 0 {
+		now := int64(65536)
+		if length < now {
+			now = length
+		}
+		// Allowed to fail; this function is advisory anyway.
+		_, err := file.Write(buf[:now])
+		if err != nil {
+			return err
+		}
+		length -= now
+	}
+
+	return nil
+}
