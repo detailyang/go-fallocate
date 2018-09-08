@@ -13,7 +13,7 @@ func Fallocate(file *os.File, offset int64, length int64) error {
 		if length < now {
 			now = length
 		}
-		// Allowed to fail; this function is advisory anyway.
+		
 		_, err := file.Write(buf[:now])
 		if err != nil {
 			return err
